@@ -9,3 +9,4 @@ HTML_Parser\bin\Debug\*.dll
 HTML_Parser\obj\Release\*
 HTML_Parser/obj/*
 HTML_Parser/bin/*
+HTML_Parser/HTML_Parser/bin/*

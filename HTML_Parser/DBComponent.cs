@@ -32,7 +32,11 @@ namespace HTML_Parser
 				Console.WriteLine(e.Message);
 			}
 		}
-
+        /// <summary>
+        /// Добавить массив ссылок 
+        /// </summary>
+        /// <param name="links"></param>
+        /// <returns></returns>
         public async Task AddLinksScopeAsync(List<Link> links)
         {
             using (ParserContext context = new ParserContext())
@@ -140,6 +144,16 @@ namespace HTML_Parser
             {           
                 using (ParserContext context = new ParserContext())
                 {
+                    var timeReq = (from c in context.Proxies select c).ToList();
+
+                    foreach (var item in timeReq)
+                    {
+                        DateTime time2 = item.WaitTo;
+                        time2= time2.AddHours(-3);
+                        item.WaitTo = time2;
+                    }
+                    context.SaveChanges();
+
                     proxys = (from c in context.Proxies where (c.IsBanned == false && c.WaitTo < DateTime.Now) || (c.IsBanned == true && c.WaitTo < DateTime.Now) select c).ToList();
                 }
                
