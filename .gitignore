@@ -1,0 +1,11 @@
+.vs/*
+.vs
+HTML_Parser\bin
+HTML_Parser\bin\*
+HTML_Parser\bin\Release\*
+HTML_Parser\bin\Debug\*
+HTML_Parser\bin\Release\*.xml
+HTML_Parser\bin\Debug\*.dll
+HTML_Parser\obj\Release\*
+HTML_Parser/obj/*
+HTML_Parser/bin/*
