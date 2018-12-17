@@ -46,7 +46,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AngleSharp, Version=0.9.9.0, Culture=neutral, PublicKeyToken=e83494dcdc6d31ea, processorArchitecture=MSIL">
@@ -101,7 +100,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>proxy.txt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Migrations\201812071025317_Initial.cs" />
     <Compile Include="Migrations\201812071025317_Initial.Designer.cs">
@@ -110,18 +108,6 @@
     <Compile Include="Migrations\201812071128275_UpdateTables.cs" />
     <Compile Include="Migrations\201812071128275_UpdateTables.Designer.cs">
       <DependentUpon>201812071128275_UpdateTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812081402542_AdditionalColumns.cs" />
-    <Compile Include="Migrations\201812081402542_AdditionalColumns.Designer.cs">
-      <DependentUpon>201812081402542_AdditionalColumns.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812081413025_AdditionalColumnToProxy.cs" />
-    <Compile Include="Migrations\201812081413025_AdditionalColumnToProxy.Designer.cs">
-      <DependentUpon>201812081413025_AdditionalColumnToProxy.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812171829384_FixedTables.cs" />
-    <Compile Include="Migrations\201812171829384_FixedTables.Designer.cs">
-      <DependentUpon>201812171829384_FixedTables.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Pages\EmptyPage.cs" />
@@ -132,10 +118,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>urls.txt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="DBComponent.cs" />
-    <Compile Include="Pages\ProductCardPage.cs" />
+    <Compile Include="DomModel.cs" />
     <Compile Include="FieldSet.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Program.cs" />
@@ -145,9 +130,7 @@
     <Compile Include="TaskBrocker.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -166,18 +149,23 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Data\cookies.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Data\cookies.json" />
     <Content Include="Data\proxy.txt">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>proxy.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\urls.txt">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>urls.Designer.cs</LastGenOutput>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="urls.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>urls.txt</LastGenOutput>
+    </Content>
+    <Content Include="urls.txt">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>urls.tt</DependentUpon>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -186,15 +174,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812071128275_UpdateTables.resx">
       <DependentUpon>201812071128275_UpdateTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812081402542_AdditionalColumns.resx">
-      <DependentUpon>201812081402542_AdditionalColumns.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812081413025_AdditionalColumnToProxy.resx">
-      <DependentUpon>201812081413025_AdditionalColumnToProxy.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812171829384_FixedTables.resx">
-      <DependentUpon>201812171829384_FixedTables.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

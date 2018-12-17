@@ -44,47 +44,58 @@ namespace HTML_Parser
             List<FieldSet> list = null;
             var captcha = _document.QuerySelector(_CapchaForm);
             var image = captcha?.QuerySelector(_CaptchaImage).GetAttribute("src");
-            Console.WriteLine($"Капча {captcha}");
-            string html = _document.Body.ToString();
-
-            if (_document.Title == "Ой!" || _document == null)
+            if (captcha != null)
             {
-                list = new List<FieldSet>();
-
-
-                list.Add(new FieldSet() { Blocked = true });
-
-                CapchaModel capchaModel = new CapchaModel(_document);
-                FieldSet fields = capchaModel.GetData();
-                Recaptcha recaptcha = new Recaptcha();
+                Console.WriteLine($"Получена капча");
             }
-            else
+
+            string html = _document.Body.ToString();
+            try
             {
-                list = new List<FieldSet>();
-
-                foreach (var item in shops)
+                if (_document.Title == "Ой!" || _document == null)
                 {
-                    string offer = item.SelectSingleNode(_AdditionalOfferQuantity)?.TextContent.Length > 0 ?
-                        (item.SelectSingleNode(_AdditionalOfferQuantity)?.TextContent.Split(' ').Length > 0 ? item.SelectSingleNode(_AdditionalOfferQuantity)?.TextContent.Split(' ')[1] : "")
-                        :
-                        "";
+                    list = new List<FieldSet>();
 
 
-                    list.Add(new FieldSet()
+                    list.Add(new FieldSet() { Blocked = true });
+
+                    CapchaModel capchaModel = new CapchaModel(_document);
+                    FieldSet fields = capchaModel.GetData();
+                    Recaptcha recaptcha = new Recaptcha();
+                }
+                else
+                {
+                    list = new List<FieldSet>();
+
+                    foreach (var item in shops)
                     {
-                        Shop = item.QuerySelector(_Shop)?.InnerHtml,
-                        ProductName = BeautifyProductName(item.QuerySelector(_ProductName)?.InnerHtml),
-                        Price = BeautifyPrice(item.QuerySelector(_Price)?.InnerHtml),
-                        DeliveryPice = BeautifyPrice(item.QuerySelector(_DeliveryPice)?.InnerHtml),
-                        DeliveryTime = BeautifyDeliveryTime(item.QuerySelector(_DeliveryTime)?.InnerHtml),
-                        FeedbackQuantity = BeatifyFeedback(item.QuerySelector(_FeedbackQuantity)?.InnerHtml),
-                        ShopRating = item.QuerySelector(_ShopRating)?.GetAttribute("data-rate"),
-                        AdditionalOfferQuantity = offer,
-                        ShopDirectLink = item.QuerySelector(_ShopDirectLink)?.GetAttribute("href"),
-                        ProductDescription = item.QuerySelector(_ProductDescription)?.InnerHtml
-                    });
+                        string offer = item.SelectSingleNode(_AdditionalOfferQuantity)?.TextContent.Length > 0 ?
+                            (item.SelectSingleNode(_AdditionalOfferQuantity)?.TextContent.Split(' ').Length > 0 ? item.SelectSingleNode(_AdditionalOfferQuantity)?.TextContent.Split(' ')[1] : "")
+                            :
+                            "";
+
+
+                        list.Add(new FieldSet()
+                        {
+                            Shop = item.QuerySelector(_Shop)?.InnerHtml,
+                            ProductName = BeautifyProductName(item.QuerySelector(_ProductName)?.InnerHtml),
+                            Price = BeautifyPrice(item.QuerySelector(_Price)?.InnerHtml),
+                            DeliveryPice = BeautifyPrice(item.QuerySelector(_DeliveryPice)?.InnerHtml),
+                            DeliveryTime = BeautifyDeliveryTime(item.QuerySelector(_DeliveryTime)?.InnerHtml),
+                            FeedbackQuantity = BeatifyFeedback(item.QuerySelector(_FeedbackQuantity)?.InnerHtml),
+                            ShopRating = item.QuerySelector(_ShopRating)?.GetAttribute("data-rate"),
+                            AdditionalOfferQuantity = offer,
+                            ShopDirectLink = item.QuerySelector(_ShopDirectLink)?.GetAttribute("href"),
+                            ProductDescription = item.QuerySelector(_ProductDescription)?.InnerHtml
+                        });
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("ProductCardPage " + e.Message);
+            }
+
 
             return list;
         }

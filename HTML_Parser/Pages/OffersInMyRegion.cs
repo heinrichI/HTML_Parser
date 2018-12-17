@@ -36,8 +36,13 @@ namespace HTML_Parser.Pages
 			List<FieldSet> list = null;
 			var captcha = _document.QuerySelector(_CapchaForm);
 			var image = captcha?.QuerySelector(_CaptchaImage).GetAttribute("src");
-			Console.WriteLine($"Капча {captcha}");
-			string html = _document.Body.ToString();
+
+            if (captcha != null)
+            {
+                Console.WriteLine($"Получена капча");
+            }
+
+            string html = _document.Body.ToString();
             try
             {
                 if (_document.Title == "Ой!" || _document == null)
@@ -66,7 +71,7 @@ namespace HTML_Parser.Pages
                         {
                             Shop = item?.QuerySelector(_Shop)?.InnerHtml,
                             ProductName = BeautifyProductName(item?.QuerySelector(_ProductName)?.InnerHtml),
-                            Price = BeautifyPrice(item.QuerySelector(_Price).InnerHtml),
+                            Price = BeautifyPrice(item.QuerySelector(_Price)?.InnerHtml),
                             DeliveryPice = BeautifyPrice(item?.QuerySelector(_DeliveryPice)?.InnerHtml),
                             DeliveryTime = BeautifyDeliveryTime(item?.QuerySelector(_DeliveryTime)?.InnerHtml),
                             FeedbackQuantity = BeatifyFeedback(item.QuerySelector(_FeedbackQuantity)?.InnerHtml),
@@ -82,7 +87,7 @@ namespace HTML_Parser.Pages
             }
             catch(Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("OffersInMyRegion " + e.Message);
             }
 			
 

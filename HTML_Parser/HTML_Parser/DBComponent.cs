@@ -115,6 +115,7 @@ namespace HTML_Parser
                                 linksQueue.Enqueue(i);
                             }
                         }
+
                         
                         linksQueue.TryDequeue(out link);
 
@@ -139,21 +140,21 @@ namespace HTML_Parser
             {           
                 using (ParserContext context = new ParserContext())
                 {
-                    var timeReq = (from c in context.Proxies select c).ToList();
+					var timeReq = (from c in context.Proxies select c).ToList();
 
-                    foreach (var item in timeReq)
-                    {
-                        DateTime time2 = item.WaitTo;
+					foreach (var item in timeReq)
+					{
+						DateTime time2 = item.WaitTo;
 
-                        if (item.WaitTo.Hour + 3 == DateTime.Now.Hour)
-                        {
-                            time2.AddHours(3);
-                            item.WaitTo = time2;
-                        }
-                    }
-                    context.SaveChangesAsync();
+						if (item.WaitTo.Hour +3 == DateTime.Now.Hour)
+						{
+							time2.AddHours(3);
+							item.WaitTo = time2;
+						}
+					}
+					context.SaveChangesAsync();
 
-                    proxys = (from c in context.Proxies where (c.IsBanned == false && c.WaitTo < DateTime.Now) || (c.IsBanned == true && c.WaitTo < DateTime.Now) select c).ToList();
+					proxys = (from c in context.Proxies where (c.IsBanned == false && c.WaitTo < DateTime.Now) || (c.IsBanned == true && c.WaitTo < DateTime.Now) select c).ToList();
                 }
                
             }
@@ -213,15 +214,14 @@ namespace HTML_Parser
 
                     var newStateProxy = (from c in context.Proxies where c.Id == proxy.Id select c).First();
                     newStateProxy.RequestCount = count;
-                    newStateProxy.IsBanned = proxy.IsBanned;
                     newStateProxy.WaitTo = date;
-
+					newStateProxy.IsBanned = proxy.IsBanned;
                     await context.SaveChangesAsync();
                 }
             }catch(SqlException e)
             {
                 Console.WriteLine(e.Message);
-            }
+            }            
         }
 
         /// <summary>
@@ -237,7 +237,6 @@ namespace HTML_Parser
                 {
                     var newState = (from c in context.Links where c.Id == link.Id select c).First();
                     newState.IsParsed = link.IsParsed;
-
                     await context.SaveChangesAsync();
                 }
             }

@@ -16,7 +16,7 @@ namespace HTML_Parser.DataModels
 		/// <summary>
 		/// Id запроса связанного
 		/// </summary>
-		public long LinkId { get; set; }
+		public Link LinkId { get; set; }
 		/// <summary>
 		/// Магазин
 		/// </summary>
@@ -57,10 +57,5 @@ namespace HTML_Parser.DataModels
 		/// Описание продукта
 		/// </summary>
 		public string ProductDescription { get; set; }
-
-        /// <summary>
-        /// Время когда обработали
-        /// </summary>
-        public DateTime ParsedTime { get; set; }
 	}
 }

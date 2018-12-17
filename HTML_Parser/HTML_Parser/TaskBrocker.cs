@@ -51,7 +51,9 @@ namespace HTML_Parser
             {
                 if (component.GetLink() != null)
                 {
-                    var listProxy = (proxys.Count > 10 ) ?  proxys.Take(proxys.Count / 2) : proxys.Take(proxys.Count);
+
+                    var listProxy = (proxys.Count % 2 ==0) ?  proxys.Take(proxys.Count / 2) : proxys.Take(1);
+			
                     Parallel.ForEach(listProxy, new ParallelOptions() { MaxDegreeOfParallelism = parallelismDegree }, async (item) =>
                     {
                         Parser parser = new Parser();
@@ -94,12 +96,16 @@ namespace HTML_Parser
                         //Обнуляем счетчик proxy
                         if (item.RequestCount >= item.MaxRequests)
                         {
-                            item.IsBanned = false;
+							item.IsBanned = false;
                             await component.SetProxyCounterAsync(item, 0, 5);
                         }
 
-                       // Console.WriteLine($"Parsed URL {link.Url}");
+                        Console.WriteLine($"Parsed URL {link.Url}");
+
+						
                     });
+
+
                 }
                 else
                 {
@@ -134,7 +140,7 @@ namespace HTML_Parser
                     ShopRating = it.ShopRating,
                     AdditionalOfferQuantity = it.AdditionalOfferQuantity,
                     ShopDirectLink = it.ShopDirectLink,
-                    LinkId = link.Id,
+                    LinkId = link,
                     ParsedTime = DateTime.Now
                 });
             }
