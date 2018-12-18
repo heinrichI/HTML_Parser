@@ -171,7 +171,7 @@ namespace HTML_Parser
         /// <param name="proxy"></param>
         /// <param name="link"></param>
         /// <returns></returns>
-        public async Task SetBlockedStateAsync(Proxy proxy, Link link, int ProxyBanWait = 4)
+        public async Task SetBlockedStateAsync(Proxy proxy, Link link, int ProxyBanWait = 1)
         {
             try
             {

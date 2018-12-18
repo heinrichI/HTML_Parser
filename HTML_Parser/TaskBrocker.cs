@@ -64,7 +64,7 @@ namespace HTML_Parser
                         List<FieldSet> data = new List<FieldSet>();
                         data = await parser.ParseDomAsync(html);
 
-                        Console.WriteLine($"Link id {link?.Id}");
+                        Console.WriteLine($"Link id {link?.Id}   Processed at  {DateTime.Now}");
 
                         if (data != null)
                         {
@@ -76,26 +76,26 @@ namespace HTML_Parser
                                 }
                                 else
                                 {
-                                    await component.SetBlockedStateAsync(item, link);
+                                    await component.SetBlockedStateAsync(item, link,1);
                                 }
                             }
                             else
                             {
-                                await component.SetBlockedStateAsync(item, link);
+                                await component.SetBlockedStateAsync(item, link,1);
                             }
                         }
                         else
                         {
                             //Задаем значение блокировки
                             // Блокируем прокси 
-                            await component.SetBlockedStateAsync(item, link);
+                            await component.SetBlockedStateAsync(item, link,1);
                         }
 
                         //Обнуляем счетчик proxy
                         if (item.RequestCount >= item.MaxRequests)
                         {
                             item.IsBanned = false;
-                            await component.SetProxyCounterAsync(item, 0, 5);
+                            await component.SetProxyCounterAsync(item, 0, 3);
                         }
 
                        // Console.WriteLine($"Parsed URL {link.Url}");
