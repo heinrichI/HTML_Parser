@@ -31,7 +31,7 @@ namespace HTML_Parser.DataModels
         /// <summary>
         /// Максимальное количество запросов с данного прокси
         /// </summary>
-        public int MaxRequests { get; set; } = 5;
+        public int MaxRequests { get; set; } = 3;
 
         /// <summary>
         /// Количество проведенных запросов
