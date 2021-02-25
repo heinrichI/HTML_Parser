@@ -19,13 +19,14 @@ namespace HTML_Parser
         {
             string appPath = Directory.GetCurrentDirectory();
 
-            string path = Path.GetFullPath(appPath + "\\Data\\urls.txt");
+           // string path = Path.GetFullPath(appPath + "\\Data\\urls.txt");
             FileReader fileReader = new FileReader();
           //  List<string> urlLines = await fileReader.GetLinesAsync(Path.GetFullPath(appPath + "\\Data\\urls.txt"));//для считывания из фала 
             List<string> proxys = await fileReader.GetLinesAsync(Path.GetFullPath(appPath + "\\Data\\proxy.txt"));// для считывания из файла
 
-            DBComponent component = new DBComponent();
-            TaskBrocker brocker = new TaskBrocker();
+            //DBComponent component = new DBComponent();
+            FakeComponent component = new FakeComponent();
+            TaskBrocker brocker = new TaskBrocker(component);
             CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
 
 

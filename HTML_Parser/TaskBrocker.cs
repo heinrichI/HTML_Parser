@@ -12,8 +12,14 @@ namespace HTML_Parser
 {
     class TaskBrocker
     {
+        public TaskBrocker(IComponent component)
+        {
+            this._component = component;
+        }
+
         private object _lock = new object();
         List<Proxy> proxys = null;
+        private readonly IComponent _component;
 
         /// <summary>
         /// Время ожидания на время отсутствия ссылок
@@ -31,7 +37,7 @@ namespace HTML_Parser
         public int ProxyBanWait { get; set; } = 3;
 
 
-        public void SetProxys(DBComponent component)
+        public void SetProxys(IComponent component)
         {
             lock (_lock)
             {
@@ -41,25 +47,23 @@ namespace HTML_Parser
 
         public void Start(CancellationToken token, int parallelismDegree = 0)
         {
-            DBComponent component = new DBComponent();
-
             int i = 0;
             HeaderList headerList = new HeaderList();
-            SetProxys(component);
+            SetProxys(_component);
 
             do
             {
-                if (component.GetLink() != null)
+                if (_component.GetLink() != null)
                 {
                     var listProxy = (proxys.Count > 10 ) ?  proxys.Take(proxys.Count / 2) : proxys.Take(proxys.Count);
                     Parallel.ForEach(listProxy, new ParallelOptions() { MaxDegreeOfParallelism = parallelismDegree }, async (item) =>
                     {
                         Parser parser = new Parser();
                         ProxyHandler handler = new ProxyHandler();
-                        Link link = component.GetLink();
+                        Link link = _component.GetLink();
 
                         string html = handler.GetContent(link.Url, handler.GetProxyConnectionData(item.Url), ref headerList);
-                        await component.SetProxyCounterAsync(item, item.RequestCount + 1 , 0);
+                        await _component.SetProxyCounterAsync(item, item.RequestCount + 1 , 0);
 
                         List<FieldSet> data = new List<FieldSet>();
                         data = await parser.ParseDomAsync(html);
@@ -72,30 +76,30 @@ namespace HTML_Parser
                             {
                                 if (data.First().Blocked == false)
                                 {
-                                    await AddParsedDataAsync(data, link, component);
+                                    await AddParsedDataAsync(data, link);
                                 }
                                 else
                                 {
-                                    await component.SetBlockedStateAsync(item, link,1);
+                                    await _component.SetBlockedStateAsync(item, link,1);
                                 }
                             }
                             else
                             {
-                                await component.SetBlockedStateAsync(item, link,1);
+                                await _component.SetBlockedStateAsync(item, link,1);
                             }
                         }
                         else
                         {
                             //Задаем значение блокировки
                             // Блокируем прокси 
-                            await component.SetBlockedStateAsync(item, link,1);
+                            await _component.SetBlockedStateAsync(item, link,1);
                         }
 
                         //Обнуляем счетчик proxy
                         if (item.RequestCount >= item.MaxRequests)
                         {
                             item.IsBanned = false;
-                            await component.SetProxyCounterAsync(item, 0, 3);
+                            await _component.SetProxyCounterAsync(item, 0, 3);
                         }
 
                        // Console.WriteLine($"Parsed URL {link.Url}");
@@ -105,7 +109,7 @@ namespace HTML_Parser
                 {
                     Thread.Sleep(TimeSpan.FromMinutes(2).Milliseconds);
                 }
-                SetProxys(component);//ищем открытые прокси
+                SetProxys(_component);//ищем открытые прокси
 
             } while (!token.IsCancellationRequested);
         }
@@ -117,7 +121,7 @@ namespace HTML_Parser
         /// <param name="link">Ссылка ресурса</param>
         /// <param name="component">Компонент для работы с базой</param>
         /// <returns></returns>
-        public async Task AddParsedDataAsync(List<FieldSet> data, Link link, DBComponent component)
+        public async Task AddParsedDataAsync(List<FieldSet> data, Link link)
         {
             List<ParsedData> parsedDatas = new List<ParsedData>();
             foreach (var it in data)
@@ -140,8 +144,8 @@ namespace HTML_Parser
             }
 
             link.IsParsed = true;//обновили состояние ссылки
-            await component.UpdateLinkAsync(link);
-            await component.AddParsedData(parsedDatas);
+            await _component.UpdateLinkAsync(link);
+            await _component.AddParsedData(parsedDatas);
         }
 
     }

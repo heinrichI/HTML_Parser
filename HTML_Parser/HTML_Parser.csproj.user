@@ -11,6 +11,7 @@
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartWorkingDirectory>C:\Users\admin\source\repos\HTML_Parser\HTML_Parser\</StartWorkingDirectory>
+    <StartWorkingDirectory>
+    </StartWorkingDirectory>
   </PropertyGroup>
 </Project>

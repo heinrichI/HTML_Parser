@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>HTML_Parser</RootNamespace>
     <AssemblyName>HTML_Parser</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PublishUrl>publish\</PublishUrl>
@@ -26,6 +26,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +36,7 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>2</WarningLevel>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -95,14 +96,10 @@
     <Compile Include="DataModels\Link.cs" />
     <Compile Include="DataModels\ParsedData.cs" />
     <Compile Include="DataModels\Proxy.cs" />
+    <Compile Include="FakeComponent.cs" />
     <Compile Include="HeaderCollection.cs" />
     <Compile Include="HeaderList.cs" />
-    <Compile Include="Data\proxy.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>proxy.txt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
+    <Compile Include="IComponent.cs" />
     <Compile Include="Migrations\201812071025317_Initial.cs" />
     <Compile Include="Migrations\201812071025317_Initial.Designer.cs">
       <DependentUpon>201812071025317_Initial.cs</DependentUpon>
@@ -128,12 +125,6 @@
     <Compile Include="Pages\OffersInMyRegion.cs" />
     <Compile Include="ProxyData.cs" />
     <Compile Include="ProxyHandler.cs" />
-    <Compile Include="Data\urls.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>urls.txt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="DBComponent.cs" />
     <Compile Include="Pages\ProductCardPage.cs" />
     <Compile Include="FieldSet.cs" />
@@ -170,13 +161,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Data\proxy.txt">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>proxy.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Data\urls.txt">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>urls.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

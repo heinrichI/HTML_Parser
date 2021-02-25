@@ -1,15 +1,15 @@
 ﻿using HTML_Parser.DataModels;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HTML_Parser
 {
-	public class DBComponent
-	{
+    public class DBComponent : IComponent
+    {
 		object _locker = new object();
         ConcurrentQueue<Link> linksQueue = new ConcurrentQueue<Link>();
 
